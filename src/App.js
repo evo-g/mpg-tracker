@@ -8,7 +8,7 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    let temp = miles/trip;
+    let temp = miles / trip;
     setMpgs(`This trip you got ${temp.toFixed(2)} miles per gallon.`);
     setTrip(0);
     setMiles(0);
@@ -16,6 +16,8 @@ function App() {
 
   return (
     <div className='container'>
+      <h1>Calculate your MPG's</h1>
+      <h2>For best results remeber to reset your trip to zero on fill up</h2>
       <form onSubmit={handleSubmit}>
         <div className='form-child'>
           <label>Refilled Gas ⛽️ </label>
@@ -34,14 +36,14 @@ function App() {
             inputMode='decimal'
             type='decimal'
             value={miles}
-            onChange={() => setMiles(event.target.value)} 
+            onChange={() => setMiles(event.target.value)}
           />
         </div>
         <div className='form-child'>
           <button type='submit'>Check MPG's</button>
         </div>
       </form>
-      {mpgs}
+      <h3>{mpgs}</h3>
     </div>
   );
 };
