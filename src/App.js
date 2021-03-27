@@ -5,14 +5,22 @@ function App() {
   const [trip, setTrip] = useState(0);
   const [miles, setMiles] = useState(0);
   const [mpgs, setMpgs] = useState('');
+  const [trips, setTrips] = useState([]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    let temp = miles / trip;
-    setMpgs(`This trip you got ${temp.toFixed(2)} miles per gallon.`);
+    let temp = (miles / trip).toFixed(2);
+    let time = ` ${new Date()}`;
+    setTrips((prev) => {
+      return [{ miles: temp, time }, ...prev]
+    })
+    setMpgs(`This trip you got ${temp} miles per gallon.`);
     setTrip(0);
     setMiles(0);
   }
+
+  localStorage.setItem('trips', JSON.stringify(trips));
+  console.log(trips);
 
   return (
     <div className='container'>
@@ -44,6 +52,14 @@ function App() {
         </div>
       </form>
       <h3>{mpgs}</h3>
+      <div>
+        {trips.map(item => (
+          <div key={item.time}>
+            <h4>miles: {item.miles}</h4>
+            <h4>Date & Time: {item.time}</h4>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
