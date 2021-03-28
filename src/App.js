@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
 
 function App() {
@@ -7,20 +7,37 @@ function App() {
   const [mpgs, setMpgs] = useState('');
   const [trips, setTrips] = useState([]);
 
+  
+  useEffect(() => {
+    const json = localStorage.getItem('trips');
+    const savedTrips = JSON.parse(json);
+    if (savedTrips) {
+      setTrips(savedTrips);
+    }
+  }, []);
+
+  useEffect(()=> {
+    let json = JSON.stringify(trips);
+    localStorage.setItem('trips', json)
+  }, [trips]);
+  
   function handleSubmit(e) {
     e.preventDefault();
     let temp = (miles / trip).toFixed(2);
     let time = ` ${new Date()}`;
-    setTrips((prev) => {
+    setTrips(prev => {
       return [{ miles: temp, time }, ...prev]
     })
     setMpgs(`This trip you got ${temp} miles per gallon.`);
     setTrip(0);
     setMiles(0);
-  }
+  };
 
-  localStorage.setItem('trips', JSON.stringify(trips));
-  console.log(trips);
+  const deleteTrip = (idToDelete) => {
+    console.log(idToDelete);
+    const filteredTrips = trips.filter((trips) => trips.time !== idToDelete);
+    setTrips(filteredTrips);
+  };
 
   return (
     <div className='container'>
@@ -55,8 +72,9 @@ function App() {
       <div>
         {trips.map(item => (
           <div key={item.time}>
-            <h4>miles: {item.miles}</h4>
+            <h4> previous mpgs: {item.miles}</h4>
             <h4>Date & Time: {item.time}</h4>
+            <button onClick={() => deleteTrip(item.time)}>delete</button>
           </div>
         ))}
       </div>
