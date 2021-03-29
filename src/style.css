@@ -52,4 +52,13 @@ form input:focus {
     align-items: center;
     justify-content: center;
   }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    
+  }
 }

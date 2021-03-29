@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
+import BarChart from './components/BarChart';
 
 function App() {
   const [trip, setTrip] = useState(0);
@@ -69,15 +70,16 @@ function App() {
         </div>
       </form>
       <h3>{mpgs}</h3>
-      <div>
+      <BarChart data={trips} />
+      <ul>
         {trips.map(item => (
-          <div key={item.time}>
-            <h4> previous mpgs: {item.miles}</h4>
-            <h4>Date & Time: {item.time}</h4>
+          <li key={item.time}>
+            <span> previous mpgs: {item.miles}</span>
+            <div>Date & Time: {item.time}</div>
             <button onClick={() => deleteTrip(item.time)}>delete</button>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
