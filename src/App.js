@@ -43,7 +43,6 @@ function App() {
 
   let milesArr = null || trips.map(obj => obj.miles);
 
-
   const barData = {
     labels: milesArr,
     datasets: [
@@ -101,17 +100,15 @@ function App() {
       </form>
       <h3>{mpgs}</h3>
       <div className='bar-container'>
-
         <Bar
           data={barData}
-
           options={{ maintainAspectRatio: false }}
         />
       </div>
       <ul>
         {trips.map(item => (
           <li key={item.time}>
-            <span> previous mpgs: {item.miles}</span>
+            <div> previous mpgs: {item.miles}</div>
             <div>Date & Time: {item.time}</div>
             <div>Description: {item.desciption}</div>
             <button onClick={() => deleteTrip(item.time)}>delete</button>
