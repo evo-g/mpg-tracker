@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.jsx",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "node -v && vite build",
