@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function App() {
   const [trip, setTrip] = useState(0);
-  const [desciption, setDescription] = useState('');
+  const [description, setDescription] = useState('');
   const [miles, setMiles] = useState(0);
   const [mpgs, setMpgs] = useState('');
   const [trips, setTrips] = useState([]);
 
-
+  // Load trips from localStorage
   useEffect(() => {
     const json = localStorage.getItem('trips');
     const savedTrips = JSON.parse(json);
@@ -18,30 +29,36 @@ function App() {
     }
   }, []);
 
+  // Save trips to localStorage
   useEffect(() => {
-    let json = JSON.stringify(trips);
-    localStorage.setItem('trips', json)
+    const json = JSON.stringify(trips);
+    localStorage.setItem('trips', json);
   }, [trips]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    let temp = (miles / trip).toFixed(2);
-    let time = ` ${new Date()}`;
-    setTrips(prev => {
-      return [{ miles: temp, time, desciption }, ...prev]
-    })
+    if (trip === 0 || miles === 0) return;
+
+    const temp = (miles / trip).toFixed(2);
+    const now = new Date();
+    const time = now.toLocaleString('en-US', {
+      dateStyle: 'medium',
+      timeStyle: 'short'
+    });
+
+    setTrips(prev => [{ miles: temp, time, description }, ...prev]);
     setMpgs(`This trip you got ${temp} miles per gallon.`);
     setTrip(0);
     setMiles(0);
     setDescription('');
-  };
+  }
 
   const deleteTrip = (idToDelete) => {
-    const filteredTrips = trips.filter((trips) => trips.time !== idToDelete);
+    const filteredTrips = trips.filter((t) => t.time !== idToDelete);
     setTrips(filteredTrips);
   };
 
-  let milesArr = null || trips.map(obj => obj.miles);
+  const milesArr = trips.map(obj => obj.miles);
 
   const barData = {
     labels: milesArr,
@@ -62,61 +79,64 @@ function App() {
     <div className='container'>
       <h1>Calculate your MPG's</h1>
       <h2>Track your fill up's here</h2>
-      <h2>For best results remeber to reset your trip to zero on fill up</h2>
+      <h2>For best results remember to reset your trip to zero on fill up</h2>
+
       <form onSubmit={handleSubmit}>
         <div className='form-child'>
-          <label>Refilled Gas ⛽️ </label>
+          <label>Refilled Gas ⛽️</label>
           <input
-            name='trip'
-            inputMode='decimal'
-            type='decimal'
+            type='number'
             value={trip}
-            onChange={() => setTrip(event.target.value)}
+            onFocus={() => trip === 0 && setTrip('')}
+            onBlur={() => trip === '' && setTrip(0)}
+            onChange={(e) => setTrip(e.target.value)}
           />
         </div>
+
         <div className='form-child'>
-          <label>Mileage 🚗 </label>
+          <label>Mileage 🚗</label>
           <input
-            name='trip'
-            inputMode='decimal'
-            type='decimal'
+            type='number'
             value={miles}
-            onChange={() => setMiles(event.target.value)}
+            onFocus={() => miles === 0 && setMiles('')}
+            onBlur={() => miles === '' && setMiles(0)}
+            onChange={(e) => setMiles(e.target.value)}
           />
         </div>
+
         <div className='form-child'>
           <label>Short Trip Description</label>
           <input
-            name='tripDescription'
             type='text'
-            value={desciption}
             placeholder='Road trip to...'
-            onChange={() => setDescription(event.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
+
         <div className='form-child'>
           <button type='submit'>Check MPG's</button>
         </div>
       </form>
+
       <h3>{mpgs}</h3>
+
       <div className='bar-container'>
-        <Bar
-          data={barData}
-          options={{ maintainAspectRatio: false }}
-        />
+        <Bar data={barData} options={{ maintainAspectRatio: false }} />
       </div>
+
       <ul>
-        {trips.map(item => (
-          <li key={item.time}>
-            <div> previous mpgs: {item.miles}</div>
-            <div>Date & Time: {item.time}</div>
-            <div>Description: {item.desciption}</div>
-            <button onClick={() => deleteTrip(item.time)}>delete</button>
+        {trips.map((item) => (
+          <li className='trip-card' key={item.time}>
+            <div><strong>Previous MPG:</strong> {item.miles}</div>
+            <div><strong>Date & Time:</strong> {item.time}</div>
+            <div><strong>Description:</strong> {item.description || '—'}</div>
+            <button onClick={() => deleteTrip(item.time)}>Delete</button>
           </li>
         ))}
       </ul>
     </div>
   );
-};
+}
 
 export default App;

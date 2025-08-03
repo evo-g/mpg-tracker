@@ -1,124 +1,139 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  -webkit-font-smoothing: antialiased;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 1.2rem;
-}
-
-body {
-  font-size: inherit;
-  line-height: 1.5;
-  width: 100%;
-  margin: 0 auto;
-  background-color: #dae0e6;
-}
-
-button {
-  border: none;
-  padding: 10px 40px;
-  border-radius: 4px;
-  background-color: #3cabae;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-input {
-  padding: 8px 12px;
-  border: 8px solid #FFFFFF;
-  font-size: 20px;
-  letter-spacing: 2px;
-}
-
-button:hover {
-  opacity: 0.5;
-  transition: 0.1s ease all;
-}
-
+/* Container responsiveness & visual clarity */
 .container {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  margin: 0 auto 5rem;
-  max-width: 900px;
-  min-height: calc(100vh - 48px)
+  width: 95%;
+  max-width: 700px; /* was 600px */
 }
 
-h2 {
-  margin: .4rem auto;
-  color: #444;
+body {
+  background-color: #e0f7fa;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem auto;
-}
-
-
-.form-child {
-  margin: .5rem 0;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-}
-
-form input {
-  background-color: #f6f7f8;
-  border: none;
-  margin: 0 1rem;
-}
-
-form input:focus {
-  background-color: #ffffff;
-}
-
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-}
-
-li {
-  display: flex;
-  padding: 0 .5rem;
-  margin: 1rem;
-  align-items: center;
-  font-size: .9rem;
-  border: 1px solid #fff;
-  border-radius: 4px;
-}
-
-li div {
-  padding: .5rem;
-  margin: .5rem auto;
-}
-
+/* Chart container responsiveness */
 .bar-container {
-  width: 20rem;
-  height: 10rem;
+  width: 100%;
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 1rem;
+  padding: 1rem;
+  margin-top: 1.5rem;
 }
 
 @media screen and (max-width: 600px) {
-
-  li {
-    flex-direction: column;
-    padding: .5rem;
+  .bar-container {
+    height: 250px;
   }
+}
 
-  li div {
-    margin: 0 auto;
-  }
+/* Input clean-up */
+input {
+  padding: 0.75rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  width: 100%;
+  max-width: 400px;
+  background-color: #f6f7f8;
+  margin-bottom: 1rem;
+}
+
+input:focus {
+  background-color: #ffffff;
+  border-color: #3cabae;
+  outline: none;
+}
+
+/* Main button tweaks */
+button {
+  padding: 12px 24px;
+  border-radius: 6px;
+  background-color: #3cabae;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2bbbad;
+}
+
+/* Form layout improvements */
+form {
+  width: 100%;
+  max-width: 500px;
+}
+
+.form-child {
+  margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Entry card (replaces li) */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.trip-card {
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.trip-card div {
+  word-wrap: break-word;
+  font-size: 0.95rem;
+}
+
+.trip-card button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+}
+
+/* Typography */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 1.5rem;
 }
