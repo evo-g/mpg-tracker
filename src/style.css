@@ -1,207 +1,160 @@
-/* Container responsiveness & visual clarity */
-.container {
-  background-color: #ffffff;
-  border-radius: 1rem;
-  padding: 2rem;
-  margin: 2rem auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  width: 95%;
-  max-width: 700px; /* was 600px */
+/* RESET & BASE */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
 }
 
 body {
+  margin: 0;
   background-color: #e0f7fa;
-}
-
-/* Chart container responsiveness */
-.bar-container {
-  width: 100%;
-  height: 300px;
+  padding: 1rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 1rem;
+}
+
+/* MAIN CONTAINER */
+.container {
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* HEADINGS */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
   margin-top: 1.5rem;
 }
 
-@media screen and (max-width: 600px) {
-  .bar-container {
-    height: 250px;
-  }
+/* FORM */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
 }
 
-/* Input clean-up */
+.form-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 input {
   padding: 0.75rem 1rem;
-  border: 2px solid #ccc;
-  border-radius: 6px;
   font-size: 1rem;
-  letter-spacing: 0.5px;
-  width: 100%;
-  max-width: 400px;
-  background-color: #f6f7f8;
-  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  transition: border-color 0.2s ease;
 }
 
 input:focus {
-  background-color: #ffffff;
   border-color: #3cabae;
+  background-color: #fff;
   outline: none;
 }
 
-/* Main button tweaks */
+/* BUTTONS */
 button {
-  padding: 12px 24px;
-  border-radius: 6px;
+  padding: 0.75rem;
   background-color: #3cabae;
-  color: #ffffff;
-  font-size: 1rem;
+  color: #fff;
   font-weight: bold;
-  transition: background-color 0.2s ease;
+  font-size: 1rem;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 button:hover {
   background-color: #2bbbad;
 }
 
-/* Form layout improvements */
-form {
+/* BAR CHART */
+.bar-container {
   width: 100%;
-  max-width: 500px;
+  height: 300px;
+  margin-top: 2rem;
 }
 
-.form-child {
-  margin-bottom: 1rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* Entry card (replaces li) */
+/* TRIP HISTORY */
 ul {
   list-style: none;
   padding: 0;
-  margin: 2rem 0;
-  width: 100%;
+  margin: 2rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .trip-card {
   background-color: #fff;
   border-radius: 1rem;
-  padding: 1.5rem;
-  margin: 1rem auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   border: 1px solid #ddd;
-  font-size: 1rem;
-  width: 100%;
-  max-width: 600px;
   display: flex;
   flex-direction: column;
-  text-align: center;
   gap: 0.5rem;
-}
-
-.trip-card div {
-  word-wrap: break-word;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .trip-card button {
-  margin-top: 1rem;
-  width: 100%;
-  padding: 0.6rem;
-  font-size: 1rem;
+  background-color: #ff5e5e;
+  margin-top: 0.5rem;
 }
 
-/* Typography */
-h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+.trip-card button:hover {
+  background-color: #d94242;
 }
 
-h2 {
-  font-size: 1.2rem;
-  color: #444;
-  margin-bottom: 1rem;
-}
-
-h3 {
-  font-size: 1rem;
-  color: #333;
-  margin-top: 1.5rem;
-}
-
-/* === MOBILE FIRST ADJUSTMENTS === */
-@media (max-width: 600px) {
-  body {
-    padding: 1rem;
-    background-color: #e0f7fa;
+/* RESPONSIVE */
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 15px;
   }
 
   .container {
     padding: 1.25rem;
-    border-radius: 0.75rem;
-    width: 100%;
-    max-width: 100%;
-    box-shadow: none;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  h2 {
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  h3 {
-    font-size: 1rem;
-    margin-top: 1rem;
-  }
-
-  input {
-    font-size: 1rem;
-    padding: 0.6rem 0.75rem;
-    letter-spacing: normal;
-    border-radius: 6px;
-  }
-
-  button {
-    padding: 0.65rem 1rem;
-    font-size: 1rem;
-    border-radius: 6px;
-  }
-
-  .form-child {
-    margin-bottom: 1rem;
-  }
-
-  .trip-card {
-    padding: 1rem;
-    font-size: 0.95rem;
-    margin: 1rem 0;
-    border-radius: 0.75rem;
-    box-shadow: none;
-  }
-
-  .trip-card button {
-    padding: 0.5rem;
-    font-size: 1rem;
   }
 
   .bar-container {
-    height: 220px;
-    padding: 0;
-    margin-top: 1rem;
-    width: 100%;
+    height: 250px;
+  }
+
+  input,
+  button {
+    font-size: 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
   }
 }
