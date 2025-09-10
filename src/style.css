@@ -1,160 +1,343 @@
-/* RESET & BASE */
+/* =========================
+   Design tokens
+   ========================= */
+:root {
+  --bg: #f5f6f7;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --accent: #22c55e;        /* Rivian-ish green */
+  --accent-ink: #065f46;
+  --radius-xl: 20px;
+  --radius-lg: 14px;
+  --radius-md: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 6px 20px rgba(0,0,0,.08);
+}
+
+/* iOS-like smoothing + mobile viewport comfort */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
+*::after { 
+  box-sizing: border-box; 
 }
 
 html {
   -webkit-font-smoothing: antialiased;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Text",
+               "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
+  background: var(--bg);
 }
 
 body {
   margin: 0;
-  background-color: #e0f7fa;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
+  color: var(--text);
+  background: var(--bg);
 }
 
-/* MAIN CONTAINER */
+/* =========================
+   App shell
+   ========================= */
+.app {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* Top app bar (like Rivian's) */
+.appbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.appbar__inner {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.appbar__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+/* Content container */
 .container {
-  background-color: #fff;
-  border-radius: 1rem;
-  padding: 2rem;
   width: 100%;
-  max-width: 800px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 100%;          /* full width on phones */
+  margin: 0 auto;
+  padding: 16px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
 }
 
-/* HEADINGS */
-h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  text-align: center;
+.bar-container { 
+  height: 220px; 
 }
 
-h2 {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 1rem;
-  text-align: center;
+/* make inputs/chips slightly larger on small screens */
+.input { 
+  height: 48px; 
+}
+.btn { 
+  height: 48px; 
 }
 
-h3 {
-  text-align: center;
-  font-size: 1rem;
-  color: #333;
-  margin-top: 1.5rem;
+
+/* Section label (subdued) */
+.section-label {
+  font-size: .9rem;
+  color: var(--muted);
+  margin: 14px 2px 10px;
+  font-weight: 600;
+  letter-spacing: .2px;
 }
 
-/* FORM */
-form {
+/* =========================
+   Cards
+   ========================= */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+}
+
+.card + .card { 
+  margin-top: 14px; 
+}
+
+/* Big headline inside cards (like "Charge limit") */
+.card__headline {
   display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  margin-top: 1.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
 }
 
-.form-child {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.card__sub {
+  color: var(--muted);
+  font-size: .9rem;
 }
 
-input {
-  padding: 0.75rem 1rem;
+/* =========================
+   Form block (Add fill-up)
+   ========================= */
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.control {
+  display: grid;
+  gap: 6px;
+}
+
+.label {
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.input {
+  height: 46px;
+  padding: 0 14px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f8f9fa;
-  transition: border-color 0.2s ease;
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: box-shadow .15s ease, border-color .15s ease, background .15s;
 }
 
-input:focus {
-  border-color: #3cabae;
-  background-color: #fff;
+.input:focus {
   outline: none;
+  background: #fff;
+  border-color: #c7d2fe;
+  box-shadow: 0 0 0 4px rgba(34,197,94,.15);
 }
 
-/* BUTTONS */
-button {
-  padding: 0.75rem;
-  background-color: #3cabae;
+.btn {
+  height: 48px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
   color: #fff;
-  font-weight: bold;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: .2px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: transform .04s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: var(--shadow-md);
+}
+.btn:active { 
+  transform: translateY(1px); 
+}
+.btn:hover { 
+  filter: saturate(1.05) brightness(1.02); 
 }
 
-button:hover {
-  background-color: #2bbbad;
+/* Inline feedback line (“This trip you got…”) */
+.feedback {
+  margin-top: 10px;
+  font-weight: 600;
 }
 
-/* BAR CHART */
-.bar-container {
-  width: 100%;
-  height: 300px;
-  margin-top: 2rem;
+/* =========================
+   Chart block
+   ========================= */
+.chart-card { 
+  padding: 16px 12px 8px; 
 }
 
-/* TRIP HISTORY */
-ul {
-  list-style: none;
+/* =========================
+   History (Rivian "Charging history" style)
+   ========================= */
+.list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
   padding: 0;
-  margin: 2rem 0 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  list-style: none;
 }
 
-.trip-card {
-  background-color: #fff;
-  border-radius: 1rem;
-  padding: 1.25rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  border: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 1rem;
-  text-align: center;
+.listitem {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px 12px;
 }
 
-.trip-card button {
-  background-color: #ff5e5e;
-  margin-top: 0.5rem;
+.listitem__left {
+  min-width: 0;
+}
+.listitem__title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.listitem__meta {
+  color: var(--muted);
+  font-size: .9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-.trip-card button:hover {
-  background-color: #d94242;
+.listitem__action {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+}
+.badge {
+  background: #ecfdf5;
+  color: var(--accent-ink);
+  border: 1px solid #bbf7d0;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: .85rem;
+}
+.iconbtn {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-/* RESPONSIVE */
-@media screen and (max-width: 600px) {
-  html {
-    font-size: 15px;
-  }
-
+/* --- ≥640px (tablets / small laptop) --- */
+@media (min-width: 640px) {
   .container {
-    padding: 1.25rem;
+    max-width: 560px;       /* no longer tiny on desktop */
   }
+  .card, .listitem { 
+    border-radius: 22px; 
+  }
+  .bar-container { 
+    height: 260px; 
+  }
+}
 
+/* --- ≥768px (laptop) --- */
+@media (min-width: 768px) {
+  .container {
+    max-width: 680px;       /* wider content column */
+  }
+  .appbar__title { 
+    font-size: 1.3rem; 
+  }
+}
+
+/* --- ≥1024px (desktop) --- */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 820px;       /* nice roomy desktop width */
+  }
   .bar-container {
-    height: 250px;
+    height: 300px; 
   }
+}
 
-  input,
-  button {
-    font-size: 1rem;
+/* optional: ensure Chart.js stretches edge-to-edge inside its card */
+.chart-card canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* =========================
+   Desktop polish
+   ========================= */
+@media (min-width: 640px) {
+  .container { 
+    padding: 24px; 
   }
+  .card, .listitem { 
+    border-radius: 24px; 
+  }
+  .bar-container { 
+    height: 260px; 
+  }
+}
 
-  h1 {
-    font-size: 1.75rem;
+/* Optional dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#0b0c0e; --card:#111315; --text:#eef2f6; --muted:#9aa3af;
+    --border:#1f2428; --shadow-sm:none; --shadow-md:none;
+    --accent:#22c55e; --accent-ink:#a7f3d0;
+  }
+  .appbar { 
+    border-bottom-color: var(--border); 
+  }
+  .input { 
+    background:#0f1113; border-color:#1f2428; color:var(--text); 
+  }
+  .input:focus { border-color:#14532d; box-shadow: 0 0 0 4px rgba(34,197,94,.18); 
+  }
+  .iconbtn { 
+    background:#3f1d1d; border-color:#571b1b; color:#fecaca; 
+  }
+  .badge { 
+    background:#0f1a14; border-color:#0f3c25; color:#a7f3d0; 
   }
 }

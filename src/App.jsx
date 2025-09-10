@@ -62,79 +62,89 @@ function App() {
 
   const barData = {
     labels: milesArr,
-    datasets: [
-      {
-        label: 'miles',
-        backgroundColor: 'rgba(255,99,132,0.2)',
-        borderColor: 'rgba(255,99,132,1)',
-        borderWidth: 1,
-        hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-        hoverBorderColor: 'rgba(255,99,132,1)',
-        data: milesArr,
-      }
-    ]
+    datasets: [{
+      label: 'MPG',
+      data: milesArr,
+      backgroundColor: 'rgba(34,197,94,0.25)',
+      borderColor: 'rgba(34,197,94,1)',
+      borderWidth: 2,
+      borderRadius: 8,
+      barThickness: 'flex',
+    }]
   };
 
+
   return (
-    <div className='container'>
-      <h1>Calculate your MPG's</h1>
-      <h2>Track your fill up's here</h2>
-      <h2>For best results remember to reset your trip to zero on fill up</h2>
-
-      <form onSubmit={handleSubmit}>
-        <div className='form-child'>
-          <label>Refilled Gas ⛽️</label>
-          <input
-            type='number'
-            value={trip}
-            onFocus={() => trip === 0 && setTrip('')}
-            onBlur={() => trip === '' && setTrip(0)}
-            onChange={(e) => setTrip(e.target.value)}
-          />
+    <div className="app">
+      <header className="appbar">
+        <div className="appbar__inner">
+          <div className="appbar__title">MPG Tracker</div>
         </div>
+      </header>
 
-        <div className='form-child'>
-          <label>Mileage 🚗</label>
-          <input
-            type='number'
-            value={miles}
-            onFocus={() => miles === 0 && setMiles('')}
-            onBlur={() => miles === '' && setMiles(0)}
-            onChange={(e) => setMiles(e.target.value)}
-          />
-        </div>
+      <main className="container">
+        <div className="section-label">Add fill-up</div>
+        <section className="card">
+          <div className="card__headline">
+            <span>Calculate MPG</span>
+            <span className="card__sub">Quick entry</span>
+          </div>
 
-        <div className='form-child'>
-          <label>Short Trip Description</label>
-          <input
-            type='text'
-            placeholder='Road trip to...'
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
+          <form onSubmit={handleSubmit} className="form">
+            <div className="control">
+              <label className="label">Refilled Gas ⛽️ (gallons)</label>
+              <input className="input" type="number" value={trip}
+                onFocus={() => trip === 0 && setTrip('')}
+                onBlur={() => trip === '' && setTrip(0)}
+                onChange={(e) => setTrip(e.target.value)}
+              />
+            </div>
 
-        <div className='form-child'>
-          <button type='submit'>Check MPG's</button>
-        </div>
-      </form>
+            <div className="control">
+              <label className="label">Mileage 🚗 (miles)</label>
+              <input className="input" type="number" value={miles}
+                onFocus={() => miles === 0 && setMiles('')}
+                onBlur={() => miles === '' && setMiles(0)}
+                onChange={(e) => setMiles(e.target.value)}
+              />
+            </div>
 
-      <h3>{mpgs}</h3>
+            <div className="control">
+              <label className="label">Short Trip Description</label>
+              <input className="input" type="text" placeholder="Road trip to…"
+                value={description} onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
 
-      <div className='bar-container'>
-        <Bar data={barData} options={{ maintainAspectRatio: false }} />
-      </div>
+            <button className="btn" type="submit">Check MPG</button>
+          </form>
 
-      <ul>
-        {trips.map((item) => (
-          <li className='trip-card' key={item.time}>
-            <div><strong>Previous MPG:</strong> {item.miles}</div>
-            <div><strong>Date & Time:</strong> {item.time}</div>
-            <div><strong>Description:</strong> {item.description || '—'}</div>
-            <button onClick={() => deleteTrip(item.time)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+          {mpgs && <div className="feedback">{mpgs}</div>}
+        </section>
+
+        <div className="section-label">MPG trend</div>
+        <section className="card chart-card">
+          <div className="bar-container">
+            <Bar data={barData} options={{ maintainAspectRatio: false, plugins: { legend: { display: false } } }} />
+          </div>
+        </section>
+
+        <div className="section-label">History</div>
+        <ul className="list">
+          {trips.map((item) => (
+            <li className="listitem" key={item.time}>
+              <div className="listitem__left">
+                <div className="listitem__title">{item.description || 'Trip'}</div>
+                <div className="listitem__meta">{item.time}</div>
+              </div>
+              <div className="listitem__action">
+                <div className="badge">{item.miles} MPG</div>
+                <button className="iconbtn" onClick={() => deleteTrip(item.time)}>Delete</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </main>
     </div>
   );
 }
